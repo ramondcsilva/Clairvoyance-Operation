@@ -16,11 +16,46 @@ from sklearn.preprocessing import LabelEncoder
 labelencoder_classe = LabelEncoder()
 classe = labelencoder_classe.fit_transform(classe[:,0])
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
 # Função do pacote sklearn que divide automaticamente dados teste e dados de treinamento
 from sklearn.model_selection import train_test_split
 # Criando variaveis para treinamento e teste, usando o metodo de divisao dos dados
 # Usou-se 25%(test_size = 0.25) como quantidade de atributos para teste e o restante para treinamento
 previsores_treinamento, previsores_teste, classe_treinamento, classe_teste = train_test_split(previsores, classe, test_size=0.15, random_state=0)
+
+
+
 
 import numpy as np
 from sklearn.multioutput import MultiOutputClassifier
@@ -44,3 +79,5 @@ precisao = accuracy_score(classe_teste, previsoes)
 matriz = confusion_matrix(classe_teste, previsoes)
 
 print(classificador.feature_importances_)
+
+'''
