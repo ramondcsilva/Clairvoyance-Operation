@@ -11,11 +11,6 @@ import pandas as pd
 base_herois = pd.read_csv('herois.csv')
 base_herois_superpower = pd.read_csv('superpoderes.csv')
 
-# Mescla base de dados 
-result = base_herois.merge(base_herois_superpower, left_on ='name', right_on='hero_names', how='outer')
-# Exclui atributo do nome de herois que estava duplicado
-result.drop("hero_names",1,inplace=True)
-
 # Tratamento de Peso Negativo
 base_herois.loc[base_herois.Weight < 0, 'Weight'] = 0
 base_herois.loc[base_herois.Weight == 0, 'Weight'] = int(base_herois['Weight'].mean())
@@ -23,6 +18,11 @@ base_herois.loc[base_herois.Weight == 0, 'Weight'] = int(base_herois['Weight'].m
 # Tratamento de Altura Negativo e substitui pela média
 base_herois.loc[base_herois.Height < 0, 'Height'] = 0
 base_herois.loc[base_herois.Height == 0, 'Height'] = int(base_herois['Height'].mean())
+
+# Mescla base de dados 
+result = base_herois.merge(base_herois_superpower, left_on ='name', right_on='hero_names', how='outer')
+# Exclui atributo do nome de herois que estava duplicado
+result.drop("hero_names",1,inplace=True)
 
 # base_herois.loc[pd.isnull(base_herois['Weight'])]
 
@@ -38,6 +38,12 @@ from sklearn.impute import SimpleImputer
 # preenchendo com os mais frequentes
 imputer = SimpleImputer(missing_values=np.nan, strategy='most_frequent')
 # Preenchendo valores vagos com os mais frequentes
+# imputer faz as estatiscas sobre o atributo Previsores
+imputer = imputer.fit(previsores[:,:]) 
+# Atribui as modificação de valores nulos, a mesma variavel
+previsores[:,:] = imputer.fit_transform(previsores[:,:])
+
+# Classe para preencher dados vagos
 imputer = SimpleImputer(missing_values = '-', strategy='most_frequent')
 # imputer faz as estatiscas sobre o atributo Previsores
 imputer = imputer.fit(previsores[:,:]) 
