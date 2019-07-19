@@ -10,6 +10,8 @@ import pandas as pd
 base_herois = pd.read_csv('herois.csv')
 base_herois_superpower = pd.read_csv('superpoderes.csv')
 
+result = base_herois.merge(base_herois_superpower, left_on='name', right_on='hero_names', how='outer')
+
 # Tratamento de Peso Negativo
 base_herois.loc[base_herois.Weight < 0, 'Weight'] = 0
 base_herois.loc[base_herois.Weight == 0, 'Weight'] = int(base_herois['Weight'].mean())
