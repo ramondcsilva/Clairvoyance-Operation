@@ -11,8 +11,10 @@ import pandas as pd
 base_herois = pd.read_csv('herois.csv')
 base_herois_superpower = pd.read_csv('superpoderes.csv')
 
-# Mescla base de dados  
-result = base_herois.merge(base_herois_superpower, left_on='name', right_on='hero_names', how='outer')
+# Mescla base de dados 
+result = base_herois.merge(base_herois_superpower, left_on ='name', right_on='hero_names', how='outer')
+# Exclui atributo do nome de herois que estava duplicado
+result.drop("hero_names",1,inplace=True)
 
 # Tratamento de Peso Negativo
 base_herois.loc[base_herois.Weight < 0, 'Weight'] = 0
@@ -22,10 +24,10 @@ base_herois.loc[base_herois.Weight == 0, 'Weight'] = int(base_herois['Weight'].m
 base_herois.loc[base_herois.Height < 0, 'Height'] = 0
 base_herois.loc[base_herois.Height == 0, 'Height'] = int(base_herois['Height'].mean())
 
-base_herois.loc[pd.isnull(base_herois['Weight'])]
+# base_herois.loc[pd.isnull(base_herois['Weight'])]
 
-# Cria atributo para previsao de dados
-previsores = base_herois.iloc[:,1:12].values
+# Cria atributo para previsao de dados, excluindo herois sem caracteristicas
+previsores = result.iloc[0:734,:].values
 
 # Tratando valores 'nan' da base de dados
 import numpy as np 
@@ -42,3 +44,5 @@ imputer = imputer.fit(previsores[:,:])
 # Atribui as modificação de valores nulos, a mesma variavel
 previsores[:,:] = imputer.fit_transform(previsores[:,:])
 
+# Transforma Objeto em DATAFRAME para melhor visualização
+visualizar = pd.DataFrame(previsores)
