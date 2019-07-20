@@ -28,6 +28,19 @@ result = base_herois.merge(base_herois_superpower, left_on ='name', right_on='he
 # Exclui atributo do nome de herois que estava duplicado
 result.drop("hero_names",1,inplace=True)
 result.drop("Alignment",1,inplace=True)
+# Apaga os heróis duplicados
+result = result.drop(50)
+result = result.drop(62)
+result = result.drop(69)
+result = result.drop(115)
+result = result.drop(156)
+result = result.drop(259)
+result = result.drop(289)
+result = result.drop(290)
+result = result.drop(481)
+result = result.drop(617)
+result = result.drop(696)
+
 # base_herois.loc[pd.isnull(base_herois['Weight'])]
 
 # Cria atributo para previsao de dados, excluindo herois sem caracteristicas
