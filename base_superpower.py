@@ -17,8 +17,17 @@ previsores = base_superpower.iloc[:,1:169].values
 
 # CÁLCULO DA DISTÂNCIA DE HAMMING
 from scipy.spatial import distance
-distance.hamming([previsores[0,:]],[previsores[1,:]])
-distance.hamming([previsores[0,0:2]],[previsores[96,0:2]])
-distance.hamming([previsores[5,0:2]],[previsores[6,0:2]])
 
-distance.jaccard([previsores[5,0:2]],[previsores[6,0:2]])
+#FUNCIONA
+distance.hamming([previsores[5,0:2]],[previsores[6,0:2]]) #ok
+distance.jaccard([previsores[5,0:2]],[previsores[6,0:2]]) #ok
+distance.kulsinski([previsores[5,0:2]],[previsores[6,0:2]]) #ok
+distance.rogerstanimoto([previsores[5,0:2]],[previsores[6,0:2]]) #ok
+distance.russellrao([previsores[5,0:2]],[previsores[6,0:2]]) #ok
+distance.sokalmichener([previsores[5,0:2]],[previsores[6,0:2]]) #ok
+
+#NÃO FUNCIONA
+distance.dice([previsores[5,0:2]],[previsores[6,0:2]])
+distance.chebyshev([previsores[5,0:2]],[previsores[6,0:2]])
+distance.sokalsneath([previsores[5,0:2]],[previsores[6,0:2]])
+distance.yule([previsores[5,0:2]],[previsores[6,0:2]])
