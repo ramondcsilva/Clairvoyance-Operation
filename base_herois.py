@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 Created on Thu Jul  4 11:20:05 2019
-@author: Ramon Silva
+@author: Ramon Silva, Adlla Katarine, Daniel Alves
 """
 # Biblioteca para calculo de distancia dos atributos com valores booleanos
 # import scipy as spi
