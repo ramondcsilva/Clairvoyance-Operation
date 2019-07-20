@@ -40,6 +40,14 @@ result = result.drop(481)
 result = result.drop(617)
 result = result.drop(696)
 
+#Personagens com nomes iguais(não necessariamente duplicados) tiveram seus nomes alterados
+result.loc[23, 'name'] = "Angel II"
+result.loc[48, 'name'] = "Atlas II"
+result.loc[97, 'name'] = "Black Canary II"
+result.loc[623, 'name'] = "Spider-Man II"
+result.loc[624, 'name'] = "Spider-Man III"
+result.loc[674, 'name'] = "Toxin II"
+
 # base_herois.loc[pd.isnull(base_herois['Weight'])]
 
 # Cria atributo para previsao de dados, excluindo herois sem caracteristicas
