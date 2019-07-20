@@ -11,9 +11,9 @@ base_superpower = pd.read_csv('superpoderes.csv')
 
 previsores = base_superpower.iloc[:,1:169].values
 
-###################################################################
+##################################################################
 ########################## DISTÂNCIA #############################
-###################################################################
+##################################################################
 
 # CÁLCULO DA DISTÂNCIA DE HAMMING
 from scipy.spatial import distance
@@ -21,4 +21,4 @@ distance.hamming([previsores[0,:]],[previsores[1,:]])
 distance.hamming([previsores[0,0:2]],[previsores[96,0:2]])
 distance.hamming([previsores[5,0:2]],[previsores[6,0:2]])
 
-distance.dice([previsores[5,0:2]],[previsores[6,0:2]])
+distance.jaccard([previsores[5,0:2]],[previsores[6,0:2]])
