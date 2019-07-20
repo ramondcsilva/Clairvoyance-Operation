@@ -12,6 +12,7 @@ from scipy.spatial import distance
 base_superpower = pd.read_csv('superpoderes.csv')
 
 previsores = base_superpower.iloc[:,1:169].values
+previsores = base_superpower.iloc[:,0:169].values
 
 ###################################################################
 ########################## DISTÂNCIA #############################
@@ -24,6 +25,8 @@ distance.kulsinski([previsores[5,0:2]],[previsores[6,0:2]]) #ok
 distance.rogerstanimoto([previsores[5,0:2]],[previsores[6,0:2]]) #ok
 distance.russellrao([previsores[5,0:2]],[previsores[6,0:2]]) #ok
 distance.sokalmichener([previsores[5,0:2]],[previsores[6,0:2]]) #ok
+
+
 
 #NÃO FUNCIONA
 distance.dice([previsores[5,0:2]],[previsores[6,0:2]])
