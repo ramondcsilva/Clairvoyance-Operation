@@ -56,6 +56,18 @@ previsores[:,:] = imputer.fit_transform(previsores[:,:])
 
 # Transforma Objeto em DATAFRAME para melhor visualização
 result = pd.DataFrame(previsores)
+
+###################################################################
+########################## DISTÂNCIA #############################
+###################################################################
+
+# CÁLCULO DA DISTÂNCIA DE HAMMING
+from scipy.spatial import distance
+distance.hamming([previsores[0,:]],[previsores[1,:]])
+distance.hamming([previsores[0,0:2]],[previsores[96,0:2]])
+distance.hamming([previsores[96,0:2]],[previsores[97,0:2]])
+
+
 ###################################################################
 ########################## PREDITORES #############################
 ###################################################################
