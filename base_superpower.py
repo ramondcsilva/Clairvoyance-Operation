@@ -27,20 +27,23 @@ distance.rogerstanimoto([previsores[5,0:2]],[previsores[6,0:2]]) #ok
 distance.russellrao([previsores[5,0:2]],[previsores[6,0:2]]) #ok
 distance.sokalmichener([previsores[5,0:2]],[previsores[6,0:2]]) #ok
 
-heroi = input('heroi escolhido: ')
 
-poderes = [3, 4, 5, 7]
+##################################################################
+################### EXEMPLO DE BUSCA #############################
+##################################################################
 
-valor_distancias = np.zeros((667,168), dtype=np.float64)
+#usuário faz a escolha do heroi (por indice)
+heroi = int(input('heroi escolhido: '))
 
+#um array é instanciado para guardar todos os valores de distancia calculados
+valor_distancias = np.zeros((667,1), dtype=np.double)
+
+#é feito um for para calcular a distancia entre todos os super herois e seus super-poderes
+#escolhido pelo usuário
 for i in range(0, 667):
-    
-    for y in range(0, poderes.index):
-        valor_distancias[i,y] = distance.hamming([previsores[i,poderes[y]]],[previsores[i,poderes[y]]])
 
-
-for y in range(0, poderes.index):
-    print(valor_distancias([[0],[y]]))
+        valor_distancias[i,0] = distance.hamming([previsores[4,[0,1,2, 10, 45, 100, 121, 130]]],[previsores[i,[0,1,2, 10, 45, 100, 121, 130]]])
+        
 
 
 
