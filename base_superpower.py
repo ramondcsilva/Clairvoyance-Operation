@@ -58,8 +58,9 @@ valor_distancias = pd.DataFrame(valor_distancias).sort_values(by=1)
 # valor_distancias[:,1].sort(axis=0)
 # Guarda os 10 herois com menores distancias
 result = valor_distancias.iloc[1:11,0:2]
-# result = result.iloc[1:11,0:2]
-        
+for i in range(0,10):
+    numero = valor_distancias.iloc[i+1,0].astype('int')
+    result.iloc[i,0] = base_superpower.iloc[numero,0] 
 '''
 #NÃO FUNCIONA
 distance.dice([previsores[5,0:2]],[previsores[6,0:2]])
