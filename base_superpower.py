@@ -32,6 +32,9 @@ distance.sokalmichener([previsores[5,0:2]],[previsores[6,0:2]]) #ok
 ################### EXEMPLO DE BUSCA #############################
 ##################################################################
 
+#distance.hamming([previsores[4,[0,1,2, 10, 22, 35, 45, 57, 89, 99, 100, 121, 130]]],[previsores[7,[0,1,2, 10, 22, 35, 45, 57, 89, 99, 100, 121, 130]]])
+    
+
 #usuário faz a escolha do heroi (por indice)
 heroi = int(input('heroi escolhido: '))
 
@@ -42,8 +45,14 @@ valor_distancias = np.zeros((667,1), dtype=np.double)
 #escolhido pelo usuário
 for i in range(0, 667):
 
-        valor_distancias[i,0] = distance.hamming([previsores[4,[0,1,2, 10, 45, 100, 121, 130]]],[previsores[i,[0,1,2, 10, 45, 100, 121, 130]]])
-        
+        #valor_distancias[i,0] = distance.hamming([previsores[4,[0,1,2, 10, 22, 35, 45, 57, 89, 99, 100,
+         #               121, 130]]],[previsores[i,[0,1,2, 10, 22, 35, 45, 57, 89, 99, 100, 121, 130]]])
+         valor_distancias[i,0] = distance.hamming([previsores[heroi,:]],[previsores[i,:]])
+
+#help(valor_distancias.sort) 
+         
+#Ordena o array em ordem crescente
+valor_distancias.sort(axis=0)
 
 
 
