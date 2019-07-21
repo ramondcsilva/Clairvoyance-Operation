@@ -13,13 +13,22 @@ from scipy.spatial import distance
 base_superpower = pd.read_csv('superpoderes.csv')
 
 previsores = base_superpower.iloc[:,1:169].values
-previsores = base_superpower.iloc[:,0:169].values
 
-
+nomes = base_superpower.iloc[:,0].values
+# previsores = base_superpower.iloc[:,0:169].values
+visualizar = pd.DataFrame(nomes)
 ##################################################################
 ########################## DISTÂNCIA #############################
 ##################################################################
-
+'''
+#FUNCIONA
+distance.hamming([previsores[5,0:2]],[previsores[6,0:2]]) #ok
+distance.jaccard([previsores[5,0:2]],[previsores[6,0:2]]) #ok
+distance.kulsinski([previsores[5,0:2]],[previsores[6,0:2]]) #ok
+distance.rogerstanimoto([previsores[5,0:2]],[previsores[6,0:2]]) #ok
+distance.russellrao([previsores[5,0:2]],[previsores[6,0:2]]) #ok
+distance.sokalmichener([previsores[5,0:2]],[previsores[6,0:2]]) #ok
+'''
 
 colunas = [
     'names',
@@ -28,9 +37,19 @@ colunas = [
 
 base_distancias = dd.DataFrame(columns=colunas, index=range(667))
 
-#usuário faz a escolha do heroi (por indice)
-heroi = int(input('heroi escolhido: '))
+#distance.hamming([previsores[4,[0,1,2, 10, 22, 35, 45, 57, 89, 99, 100, 121, 130]]],[previsores[7,[0,1,2, 10, 22, 35, 45, 57, 89, 99, 100, 121, 130]]])
+    
 
+#usuário faz a escolha do heroi (por indice)
+heroi = str(input('heroi escolhido: '))
+
+
+# Encontra indice do Heroi pesquisado
+heroi, = np.where(nomes == heroi)
+print(heroi)
+# nomes.Index
+#um array é instanciado para guardar todos os valores de distancia calculados
+valor_distancias = np.zeros((667,1), dtype=np.double)
 
 #é feito um for para calcular a distancia entre todos os super herois e seus super-poderes
 #escolhido pelo usuário     
@@ -50,8 +69,21 @@ distance.rogerstanimoto([previsores[5,1:3]],[previsores[6,1:3]]) #ok 0
 distance.russellrao([previsores[5,1:3]],[previsores[6,1:3]]) #ok 1
 distance.sokalmichener([previsores[5,1:3]],[previsores[6,1:3]]) #ok 0
 
+        #valor_distancias[i,0] = distance.hamming([previsores[4,[0,1,2, 10, 22, 35, 45, 57, 89, 99, 100,
+         #               121, 130]]],[previsores[i,[0,1,2, 10, 22, 35, 45, 57, 89, 99, 100, 121, 130]]])
+         valor_distancias[i,0] = distance.hamming([previsores[heroi,:]],[previsores[i,:]])
+
+#help(valor_distancias.sort) 
+#Ordena o array em ordem crescente
+valor_distancias.sort(axis=0)
+# Guarda os 10 herois com menores distancias
+result = valor_distancias[1:11,:]       
+
+'''
+
 #NÃO FUNCIONA
 distance.dice([previsores[5,0:2]],[previsores[6,0:2]])
 distance.chebyshev([previsores[5,0:2]],[previsores[6,0:2]])
 distance.sokalsneath([previsores[5,0:2]],[previsores[6,0:2]])
 distance.yule([previsores[5,0:2]],[previsores[6,0:2]])
+'''
