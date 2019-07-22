@@ -9,6 +9,9 @@ Created on Thu Jul  4 11:20:05 2019
 ###################################################################
 
 import pandas as pd
+import numpy as np 
+#import scikitplot as skplt
+#import matplotlib.pyplot as plt
 # Leitura de arquivo para criação da base_herois de dados
 base_herois = pd.read_csv('herois.csv')
 base_herois_superpower = pd.read_csv('superpoderes.csv')
@@ -53,8 +56,7 @@ result.loc[674, 'name'] = "Toxin II"
 # Cria atributo para previsao de dados, excluindo herois sem caracteristicas
 previsores = result.iloc[0:734,2:178].values
 
-# Tratando valores 'nan' da base de dados
-import numpy as np 
+# Tratando valores 'nan' da base de dados 
 # Cria uma classe SimpleImputer para pre-processamento, 
 # representando entrada de dados
 from sklearn.impute import SimpleImputer
@@ -79,25 +81,28 @@ result = pd.DataFrame(previsores)
 guarda = result
 
 # Cria classe para classficação
-classe = result.iloc[:,7].values             # 52% Alingment
-matriz_accuracy = [0,1,2,3,4]        
+classe = result.iloc[:,7].values             # 52% Alingment features = 20, depth = 21 66%
+
+# accuracy_ndepth = result.iloc[0:168,0]
+# accuracy_nfeatures = result.iloc[0:168,0]
+accuracy = [0,1,2,3,4]  
 for i in range(0,5):
-    result = guarda    
+    result = guarda  
     if  (i==1):
-        classe = result.iloc[:,10].values    # 76# Cura 
+        classe = result.iloc[:,10].values    # 76% Cura features = 70, depth = 5 %97 - Ocorre 100% de accuracy quando +100 features
         result = result.drop(columns=10)
     elif(i==2):
-        classe = result.iloc[:,17].values    # 76% Voar
+        classe = result.iloc[:,17].values    # 76% Voar features = 20, depth = 21 % - Ocorre 100% de accuracy quando +90 features - Default 100%
         result = result.drop(columns=17)
     elif(i==3):
-        classe = result.iloc[:,26].values    # 77% Força
+        classe = result.iloc[:,26].values    # 77% Força features = 20, depth = 21 %
         result = result.drop(columns=26)
     elif(i==4):
         classe = result.iloc[:,46].values
-        result = result.drop(columns=46)     # 87% Teleporte
-    else:        
+        result = result.drop(columns=46)     # 87% Teleporte features = 15, depth = 9 94%
+    else:
         result = result.drop(columns=7)
-
+    
     # Retorna a modificação
     previsores = result.iloc[:,:].values
 ###################################################################
@@ -112,27 +117,31 @@ for i in range(0,5):
     previsores[:, 6] = LabelEncoder().fit_transform(previsores[:, 6])
     if(i==0):
         classe = LabelEncoder().fit_transform(classe)
-    else:
+    else:   
         previsores[:, 7] = LabelEncoder().fit_transform(previsores[:, 7])
-        
-    previsores=previsores.astype('int')
-    classe=classe.astype('int')
+    
+    previsores = previsores.astype('int')
+    classe = classe.astype('int')
+    
     # Função do pacote sklearn que divide automaticamente dados teste e dados de treinamento
     from sklearn.model_selection import train_test_split
     # Criando variaveis para treinamento e teste, usando o metodo de divisao dos dados
     # Usou-se 25%(test_size = 0.25) como quantidade de atributos para teste e o restante para treinamento
-    previsores_treinamento, previsores_teste, classe_treinamento, classe_teste = train_test_split(previsores, classe, test_size=0.15, random_state=0)
-
+    previsores_treinamento, previsores_teste, classe_treinamento, classe_teste = train_test_split(previsores, classe, test_size=0.33, random_state=0)
+#for i in range(0,168):
     # Treinamento a partir de uma Arvore de Decisao, com o criterio de Entropia, unico teste
     from sklearn.tree import DecisionTreeClassifier
-    classificador = DecisionTreeClassifier(criterion = 'entropy', random_state = 0)
+    classificador = DecisionTreeClassifier(criterion = 'gini', 
+                                           # max_features = 30,
+                                           # max_depth = i+1,
+                                           random_state = 0)
     classificador.fit(previsores_treinamento, classe_treinamento)
     previsoes = classificador.predict(previsores_teste)
-    
-    from sklearn.metrics import accuracy_score#, confusion_matrix
+    from sklearn.metrics import accuracy_score#, roc_curve, confusion_matrix
     # Compara dados de dois atributos retornando o percentual de igualdade deles
     # classe_teste = classe_teste.astype('int')
-    matriz_accuracy[i] = accuracy_score(classe_teste, previsoes)
-        
+    # accuracy_nfeatures[i] = accuracy_score(classe_teste, previsoes)
+    # accuracy_ndepth[i] = accuracy_score(classe_teste, previsoes)
+    accuracy[i] = accuracy_score(classe_teste, previsoes) 
     # Cria uma matriz para comparação de dados dos dois atributos
     # matriz = confusion_matrix(classe_teste, previsoes)
