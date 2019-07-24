@@ -10,6 +10,7 @@ Created on Thu Jul  4 11:20:05 2019
 
 import pandas as pd
 import numpy as np 
+
 #import scikitplot as skplt
 #import matplotlib.pyplot as plt
 # Leitura de arquivo para criação da base_herois de dados
@@ -70,11 +71,18 @@ imputer = imputer.fit(previsores[:,:])
 previsores[:,:] = imputer.fit_transform(previsores[:,:])
 
 # Classe para preencher dados vagos
-imputer = SimpleImputer(missing_values = '-', strategy='most_frequent')
+imputer = SimpleImputer(missing_values = '-', strategy='constant', fill_value='neutral')
+# imputer faz as estatiscas sobre o atributo Previsores
+imputer = imputer.fit(previsores[:,7].reshape(1,-1)) 
+# Atribui as modificação de valores nulos, a mesma variavel
+previsores[:,7] = imputer.fit_transform(previsores[:,7].reshape(1,-1))
+
+imputer = SimpleImputer(missing_values='-', strategy='most_frequent')
 # imputer faz as estatiscas sobre o atributo Previsores
 imputer = imputer.fit(previsores[:,:]) 
 # Atribui as modificação de valores nulos, a mesma variavel
 previsores[:,:] = imputer.fit_transform(previsores[:,:])
+
 
 # Transforma Objeto em DATAFRAME para melhor visualização
 result = pd.DataFrame(previsores)
@@ -128,20 +136,50 @@ for i in range(0,5):
     # Criando variaveis para treinamento e teste, usando o metodo de divisao dos dados
     # Usou-se 25%(test_size = 0.25) como quantidade de atributos para teste e o restante para treinamento
     previsores_treinamento, previsores_teste, classe_treinamento, classe_teste = train_test_split(previsores, classe, test_size=0.33, random_state=0)
+
+    from sklearn.preprocessing import StandardScaler
+    scaler = StandardScaler()
+    # Atribui o escalonamento ao atributo previsores
+    previsores_treinamento = scaler.fit_transform(previsores_treinamento)
+    previsores_teste = scaler.fit_transform(previsores_teste)
+    
 #for i in range(0,168):
-    # Treinamento a partir de uma Arvore de Decisao, com o criterio de Entropia, unico teste
+    # Treinamento a partir de uma Arvore de Decisao, com o criterio de Entropia, unico teste  
+    # Hiperparamenters para achar a melhores paramentros para a arvore
+    from scipy.stats import randint
+    paramenter = {"max_depth": randint(3,10),
+                  "min_samples_leaf": randint(1,5),
+                  "max_features": randint(5,15),
+                  "criterion": ["gini","entropy"]}  
+    
     from sklearn.tree import DecisionTreeClassifier
-    classificador = DecisionTreeClassifier(criterion = 'gini', 
-                                           # max_features = 30,
-                                           # max_depth = i+1,
-                                           random_state = 0)
+    tree = DecisionTreeClassifier()
+    
+    from sklearn.model_selection import RandomizedSearchCV
+    classificador = RandomizedSearchCV(tree,paramenter, cv=5)
+    
     classificador.fit(previsores_treinamento, classe_treinamento)
+    
+    print("Tuned: {}".format(classificador.best_params_))
+    print("Best score is {}".format(classificador.best_score_))
+    
     previsoes = classificador.predict(previsores_teste)
-    from sklearn.metrics import accuracy_score#, roc_curve, confusion_matrix
+
+    # Usando o Cross_validate para avaliar o classificador
+    from sklearn.model_selection import cross_validate
+    scoring = ['precision_macro', 'recall_macro']
+    scores_cv = cross_validate(classificador, 
+                            previsores, 
+                            classe,
+                            scoring=scoring, 
+                            cv=10)
+    scores_cv['test_precision_macro']
+
+    from sklearn.metrics import accuracy_score, confusion_matrix
     # Compara dados de dois atributos retornando o percentual de igualdade deles
     # classe_teste = classe_teste.astype('int')
     # accuracy_nfeatures[i] = accuracy_score(classe_teste, previsoes)
     # accuracy_ndepth[i] = accuracy_score(classe_teste, previsoes)
     accuracy[i] = accuracy_score(classe_teste, previsoes) 
     # Cria uma matriz para comparação de dados dos dois atributos
-    # matriz = confusion_matrix(classe_teste, previsoes)
+    matriz = confusion_matrix(classe_teste, previsoes)
