@@ -13,7 +13,6 @@ import numpy as np
 base_superpower = pd.read_csv('superpoderes.csv')
 previsores = base_superpower.iloc[:,1:169].values
 nomes = base_superpower.iloc[:,0].values
-# previsores = base_superpower.iloc[:,0:169].values
 # visualizar = pd.DataFrame(nomes)
 
 ##################################################################
@@ -29,9 +28,7 @@ distancia_type = ["Distância de Hamming", "Distância de Jaccard", "Distância 
 
 superpower = base_superpower.columns[1:] #Lista de todos os super-poderes
 
-
-
-escolha_n = int(input('escolha q quantidade de superpower que deseja escolher:')) 
+escolha_n = int(input('Escolha a quantidade de superpower que deseja calcular:')) 
 escolha_sp = [] #Lista com os indices dos super-poderes escolhidos
 ss = [] #Lista com o nome dos super-poderes escolhidos
 for i in range(0,escolha_n):
@@ -40,8 +37,7 @@ for i in range(0,escolha_n):
     ss.append(superpower[escolha_sp[i]])
     
 #É criado uma base de dados com todos os super-poderes(escolhidos pelo usuário) dos heróis
-import pandas as dd
-base_distancias = dd.DataFrame(columns=ss, index=range(667))
+base_distancias = pd.DataFrame(columns=ss, index=range(667))
 
 #Informações sobre os super-poderes é passado para a "base_distancias"
 for i in range(0,len(ss)):
@@ -50,7 +46,7 @@ for i in range(0,len(ss)):
 base_distancias = base_distancias.iloc[:,:].values
 
 #usuário faz a escolha do heroi (por indice)
-heroi = str(input('heroi escolhido: '))
+heroi = str(input('Heroi escolhido: '))
 
 # Encontra indice do Heroi pesquisado
 heroi, = np.where(nomes == heroi)
@@ -99,14 +95,14 @@ elif(escolha_distancia == 4):
         if(i != heroi):
             valor_distancias[i,1] = distance.russellrao([base_distancias[heroi,:]],[base_distancias[i,:]])
             valor_distancias[i,0] = i
-             
+'''             
 else:
     ################### DISTÂNCIA DE SOKALMICHENER #############################
     for i in range(0, 667):
         if(i != heroi):
             valor_distancias[i,1] = distance.sokalmichener([base_distancias[heroi,:]],[base_distancias[i,:]])
             valor_distancias[i,0] = i
-             
+'''             
 print(escolha_distancia)
 #Ordena o array em ordem crescente
 valor_distancias = pd.DataFrame(valor_distancias).sort_values(by=1)         
@@ -116,23 +112,3 @@ result = valor_distancias.iloc[1:11,0:2]
 for i in range(0,10):
     numero = valor_distancias.iloc[i+1,0].astype('int')
     result.iloc[i,0] = base_superpower.iloc[numero,0] 
-    
-    
-    
-'''    
-poderes_esc = np.zeros((667,2), dtype=np.str)
-poderes_esc = base_superpower.loc[:, "hero_names"]
-poderes_esc = base_superpower.loc[:, "Accelerated Healing"]
-
-base_distancias.iloc[:,1] = base_superpower.loc[:, "Dimensional Awareness"]
-poderes_escolhidos = np.zeros((667,escolha_n), dtype=np.bool)
-for i in range(0,len(distancia_type)):
-    poderes_escolhidos[i] = base_superpower.loc[:, superpower[escolha_sp[i]]]
-
-print(superpower[escolha_sp[0]])
-print(poderes_escolhidos[i])
-
-poderes_escolhidos[0] = base_superpower.loc[:, "Accelerated Healing"]
-
-poderes_escolhidos[0] = base_superpower.loc[1, "Accelerated Healing"]
-'''
