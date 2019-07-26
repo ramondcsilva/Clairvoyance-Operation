@@ -1,5 +1,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 import base_superpower as bd
+sp = bd.SuperPower()
+
 
 #classe para fazer uma ComboBox ser uma Checkable
 class CheckableComboBox(QtWidgets.QComboBox):
@@ -46,8 +48,6 @@ class Main(object):
         self.heroes.setFont(font)
         self.heroes.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.heroes.setObjectName("heroes")
-        self.heroes.addItem("")
-        self.heroes.addItem("")
         self.horizontalLayout.addWidget(self.heroes)
         
         #box das features 
@@ -68,7 +68,6 @@ class Main(object):
         self.method.setFont(font)
         self.method.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.method.setObjectName("method")
-        self.method.addItem("")
         self.horizontalLayout.addWidget(self.method)
         self.verticalLayout.addLayout(self.horizontalLayout)
         
@@ -99,11 +98,16 @@ class Main(object):
         MainWindowd.setWindowTitle(_translate("MainWindowd", "Clairvoyance Operation"))
         self.label.setText(_translate("MainWindowd", "Clairvoyance Operation"))
         #para testes
-        self.heroes.setItemText(0, _translate("MainWindowd", "Heroi 1"))
-        self.heroes.setItemText(1, _translate("MainWindowd", "Heroi 2"))
-        for i in range(6):
-            self.feature.addItem("poder" + str(i))
-        self.method.setItemText(0, _translate("MainWindowd", "Metodo 1"))
+        sp.criarListas()
+        lAUX = sp.retornarNames()
+        for i in range(0, len(lAUX)):
+            self.heroes.addItem(lAUX[i])
+        lAUX = sp.retornarSuperPower()
+        for i in range(0, len(lAUX)):
+            self.feature.addItem(lAUX[i])    
+        lAUX = sp.retornarDistancias()
+        for i in range(0, len(lAUX)):
+            self.method.addItem(lAUX[i])
         
         self.search.setText(_translate("MainWindowd", "Pesquisar"))
 

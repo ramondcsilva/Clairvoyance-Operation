@@ -24,6 +24,15 @@ class SuperPower:
                           "Distância de Rogerstanimoto", "Distância de Russellrao", "Distância de Sokalmichener"]
         self.superpower = self.base_superpower.columns[1:] #Lista de todos os super-poderes
     
+    def retornarNames(self):
+        return self.names
+    
+    def retornarDistancias(self):
+        return self.distancia_type
+    
+    def retornarSuperPower(self):
+        return self.superpower
+    
     #TEMPORARIO - VER
     def escolherSuperPower(self, escolha_n):
         escolha_sp = [] #Lista com os indices dos super-poderes escolhidos
