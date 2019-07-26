@@ -62,7 +62,6 @@ class SuperPower:
                 if(i != self.heroi):
                     self.valor_distancias[i,1] = distance.jaccard([self.base_distancias[self.heroi,:]],[self.base_distancias[i,:]])
                     self.valor_distancias[i,0] = i
-        
         elif(self.escolha_distancia == 2):
             ################### DISTÂNCIA DE ROGERSTANIMOTO #############################
             for i in range(0, 667):
