@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 Created on Fri Jul  5 00:01:09 2019
-
-@author: Ramon Silva
+@author: Ramon Silva, Adlla Katarine, Daniel Alves
 """
 
 import pandas as pd
@@ -102,4 +101,3 @@ class SuperPower:
         for i in range(0,10):
             numero = self.valor_distancias.iloc[i+1,0].astype('int')
             result.iloc[i,0] = self.base_superpower.iloc[numero,0] 
-        
