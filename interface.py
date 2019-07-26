@@ -1,7 +1,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
+import base_superpower as bd
 
-import Clairvoyance-Operation-master as bd
-
+#classe para fazer uma ComboBox ser uma Checkable
 class CheckableComboBox(QtWidgets.QComboBox):
     
     def addItem(self, item):
@@ -14,7 +14,7 @@ class CheckableComboBox(QtWidgets.QComboBox):
         item = self.model().item(i,0)
         return print(item.checkState() == QtCore.Qt.Checked)
 
-class Ui_MainWindowd(object):
+class Main(object):
     def setupUi(self, MainWindowd):
         #criação da tela principal    
         MainWindowd.setObjectName("MainWindowd")
@@ -82,6 +82,7 @@ class Ui_MainWindowd(object):
         self.search.setObjectName("search")
         self.verticalLayout.addWidget(self.search)
         MainWindowd.setCentralWidget(self.centralwidget)
+        self.search.clicked.connect(self.exibir)
         
         self.statusbar = QtWidgets.QStatusBar(MainWindowd)
         self.statusbar.setObjectName("statusbar")
@@ -106,6 +107,44 @@ class Ui_MainWindowd(object):
         
         self.search.setText(_translate("MainWindowd", "Pesquisar"))
 
+    def exibir(self):
+        t = Resultado()
+        t.setupUi(MainWindowd)
+        MainWindowd.show
+        
+class Resultado(object):
+    def setupUi(self, MainWindow):
+        MainWindow.setObjectName("MainWindow")
+        MainWindow.setEnabled(True)
+        self.centralwidget = QtWidgets.QWidget(MainWindow)
+        self.centralwidget.setObjectName("centralwidget")
+        self.verticalLayout = QtWidgets.QVBoxLayout(self.centralwidget)
+        self.verticalLayout.setObjectName("verticalLayout")
+        self.label = QtWidgets.QLabel(self.centralwidget)
+        font = QtGui.QFont()
+        font.setFamily("MV Boli")
+        font.setPointSize(22)
+        self.label.setFont(font)
+        self.label.setLayoutDirection(QtCore.Qt.LeftToRight)
+        self.label.setObjectName("label")
+        self.verticalLayout.addWidget(self.label)
+        self.listView = QtWidgets.QListView(self.centralwidget)
+        self.listView.setObjectName("listView")
+        self.verticalLayout.addWidget(self.listView)
+        MainWindow.setCentralWidget(self.centralwidget)
+        self.statusbar = QtWidgets.QStatusBar(MainWindow)
+        self.statusbar.setObjectName("statusbar")
+        MainWindow.setStatusBar(self.statusbar)
+
+        self.retranslateUia(MainWindow)
+        QtCore.QMetaObject.connectSlotsByName(MainWindow)
+
+    def retranslateUia(self, MainWindow):
+        _translate = QtCore.QCoreApplication.translate
+        MainWindow.setWindowTitle(_translate("MainWindow", "Clairvoyance Operation"))
+        self.label.setText(_translate("MainWindow", "Clairvoyance Operation"))
+
+        
 #iniciando o programa 
 if __name__ == "__main__":
     import sys
@@ -113,7 +152,7 @@ if __name__ == "__main__":
     MainWindowd = QtWidgets.QMainWindow()
     mainWidget = QtWidgets.QWidget()
     MainWindowd.setCentralWidget(mainWidget)  
-    ui = Ui_MainWindowd()
+    ui = Main()
     ui.setupUi(MainWindowd)
     MainWindowd.show()
     sys.exit(app.exec_())
