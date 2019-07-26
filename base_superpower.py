@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 Created on Fri Jul  5 00:01:09 2019
-
-@author: Ramon Silva
+@author: Ramon Silva, Adlla Katarine, Daniel Alves
 """
 
 import pandas as pd
@@ -15,10 +14,7 @@ previsores = base_superpower.iloc[:,1:169].values
 nomes = base_superpower.iloc[:,0].values
 # visualizar = pd.DataFrame(nomes)
 
-##################################################################
 ################### EXEMPLO DE BUSCA #############################
-##################################################################
-
 #Listas criados para facilitar o checkbox na interface gráfica
 names = base_superpower["hero_names"] #Lista com o nome de todos os heróis
 
@@ -63,46 +59,46 @@ escolha_distancia = input()
 #escolhido pelo usuário 
 if(escolha_distancia == 0):
     ################### DISTÂNCIA DE HAMMING #############################
-    for i in range(0, 667):
+    for i in range(0, 667): # Retorno = 1/0
         if(i != heroi):
             valor_distancias[i,1] = distance.hamming([base_distancias[heroi,:]],[base_distancias[i,:]])
             valor_distancias[i,0] = i
         
 elif(escolha_distancia == 1):
     ################### DISTÂNCIA DE JACCARD #############################
-    for i in range(0, 667):
+    for i in range(0, 667): # Retorno = 1/0
         if(i != heroi):
             valor_distancias[i,1] = distance.jaccard([base_distancias[heroi,:]],[base_distancias[i,:]])
             valor_distancias[i,0] = i
 
 elif(escolha_distancia == 2):
     ################### DISTÂNCIA DE ROGERSTANIMOTO #############################
-    for i in range(0, 667):
+    for i in range(0, 667): # Retorno =1/-1 
         if(i != heroi):
             valor_distancias[i,1] = distance.rogerstanimoto([base_distancias[heroi,:]],[base_distancias[i,:]])
             valor_distancias[i,0] = i
             
 elif(escolha_distancia == 3):
     ################### DISTÂNCIA DE KULSINSKI #############################
-    for i in range(0, 667):
+    for i in range(0, 667): # Retorno = 1/-1
         if(i != heroi):
             valor_distancias[i,1] = distance.kulsinski([base_distancias[heroi,:]],[base_distancias[i,:]])
             valor_distancias[i,0] = i
-            
+
 elif(escolha_distancia == 4):
     ################### DISTÂNCIA DE RUSSELLRAO #############################
-    for i in range(0, 667):
+    for i in range(0, 667): # Retorno = 1/0
         if(i != heroi):
             valor_distancias[i,1] = distance.russellrao([base_distancias[heroi,:]],[base_distancias[i,:]])
             valor_distancias[i,0] = i
-'''             
+
 else:
     ################### DISTÂNCIA DE SOKALMICHENER #############################
-    for i in range(0, 667):
+    for i in range(0, 667): # Retorno = 1/-1
         if(i != heroi):
             valor_distancias[i,1] = distance.sokalmichener([base_distancias[heroi,:]],[base_distancias[i,:]])
             valor_distancias[i,0] = i
-'''             
+          
 print(escolha_distancia)
 #Ordena o array em ordem crescente
 valor_distancias = pd.DataFrame(valor_distancias).sort_values(by=1)         
