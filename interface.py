@@ -177,11 +177,15 @@ class Resultado(object):
         #criação de uma listwidget para visualização dos resultados
         self.listWidget = QtWidgets.QListWidget(self.centralwidget)
         self.listWidget.setObjectName("listWidget")
-        lAUX2 = sp.rankingHerois()
-        self.lAUX = []
-        for i in range(0, len(lAUX2)):
-            self.lAUX.append(str(lAUX2[i]))
-        self.listWidget.addItems(self.lAUX)
+        lAUX = sp.rankingHerois()
+        for i in range(0, len(lAUX)):
+            string = str(lAUX[i])
+            string = string.replace("[","")
+            string = string.replace("]", "")
+            string = string.replace("'", "")
+            lAUX[i] = string
+            
+        self.listWidget.addItems(lAUX)
    
         #criação de um layout para itens se adaptarem ao tamanho da tela
         self.verticalLayout.addWidget(self.listWidget)
