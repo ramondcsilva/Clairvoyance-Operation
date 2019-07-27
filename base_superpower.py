@@ -34,30 +34,30 @@ class SuperPower:
         return self.superpower
     
     #TEMPORARIO - VER
-    def escolherSuperPower(self, escolha_n):
-        escolha_sp = [] #Lista com os indices dos super-poderes escolhidos
-        ss = [] #Lista com o nome dos super-poderes escolhidos
-        for i in range(0,escolha_n):
-            print(f"Escolha {(i+1)}: ")
-            escolha_sp.append(int(input()))
-            ss.append(self.superpower[escolha_sp[i]])
+    def escolherSuperPower(self, lista):
+        self.escolha_sp = lista #Lista com os indices dos super-poderes escolhidos
+        self.ss = [] #Lista com o nome dos super-poderes escolhidos
+        for i in range(0, len(self.escolha_sp)):
+            self.ss.append(print(self.superpower[self.escolha_sp[i]]))
     
     def criarBaseDadosPoderes(self):
         #É criado uma base de dados com todos os super-poderes(escolhidos pelo usuário) dos heróis
-        self.base_distancias = dd.DataFrame(columns=self.ss, index=range(667))
+        self.base_distancias = dd.DataFrame(columns = self.ss, index = range(667))
         #Informações sobre os super-poderes é passado para a "base_distancias"
-        for i in range(0,len(self.ss)):
+        for i in range(0, len(self.ss)):
             self.base_distancias.iloc[:,i] = self.base_superpower.loc[:, str(self.superpower[self.escolha_sp[i]])]
         self.base_distancias = self.base_distancias.iloc[:,:].values
 
-    def escolherHeroi(self, heroi):
+    def escolherHeroi(self, heroiAux):
         # Encontra indice do Heroi pesquisado
-        self.heroi, = np.where(self.nomes == self.heroi)
-    
+        self.heroi, = np.where(self.nomes == heroiAux)
+        
     def escolherDistancia(self, escolha_distancia):
         self.escolha_distancia = escolha_distancia
     
     def calcularDistancia(self):
+        #um array é instanciado para guardar todos os valores de distancia calculados
+        self.valor_distancias = np.zeros((667,2), dtype=np.double)
         if(self.escolha_distancia == 0):
             ################### DISTÂNCIA DE HAMMING #############################
             for i in range(0, 667):
