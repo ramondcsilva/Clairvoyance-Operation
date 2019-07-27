@@ -15,9 +15,17 @@ class CheckableComboBox(QtWidgets.QComboBox):
     #retorna true caso o a posição da CheckBox esteja selecionada
     def itemChecked(self, index):
         item = self.model().item(index)
+        if(index == 0):
+            for i in range(0, 167):
+                self.allChecked(i)
         if(item.checkState() == QtCore.Qt.Checked):
             return True
         return False
+    #caso o usuário queira selecionar todos os super-poderes
+    def allChecked(self, index2):
+        item2 = self.model().item(index2)
+        item2.setCheckState(QtCore.Qt.Checked) 
+           
 
 class Main(object):
     def setupUi(self, MainWindowd):
@@ -109,7 +117,8 @@ class Main(object):
         for i in range(0, len(lAUX)):
             self.heroes.addItem(lAUX[i])
         lAUX = sp.retornarSuperPower()
-        for i in range(0, len(lAUX)):
+        for i in range(1, len(lAUX)):
+            self.feature.addItem("Selecionar Todos")
             self.feature.addItem(lAUX[i])    
         lAUX = sp.retornarDistancias()
         for i in range(0, len(lAUX)):
@@ -167,7 +176,6 @@ class Resultado(object):
         self.lAUX = []
         for i in range(0, len(lAUX2)):
             self.lAUX.append(str(lAUX2[i]))
-        print(self.lAUX)
         self.listWidget.addItems(self.lAUX)
    
         #criação de um layout para itens se adaptarem ao tamanho da tela
