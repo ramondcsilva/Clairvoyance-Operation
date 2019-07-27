@@ -1,10 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Fri Jul 26 16:24:55 2019
-
-@author: Ramon Silva
-"""
-
 """
 Created on Thu Jul  4 11:20:05 2019
 @author: Ramon Silva, Adlla Katarine, Daniel Alves
@@ -13,8 +6,6 @@ Created on Thu Jul  4 11:20:05 2019
 ########################## TRATAMENTO #############################
 import pandas as pd
 import numpy as np 
-
-#import scikitplot as skplt
 #import matplotlib.pyplot as plt
 # Leitura de arquivo para criação da base_herois de dados
 base_herois = pd.read_csv('herois.csv')
@@ -27,7 +18,6 @@ base_herois.loc[base_herois.Weight == 0, 'Weight'] = int(base_herois['Weight'].m
 # Tratamento de Altura Negativo e substitui pela média
 base_herois.loc[base_herois.Height < 0, 'Height'] = 0
 base_herois.loc[base_herois.Height == 0, 'Height'] = int(base_herois['Height'].mean())
-
 
 # Mescla base de dados 
 result = base_herois.merge(base_herois_superpower, left_on ='name', right_on='hero_names', how='outer')
@@ -75,7 +65,7 @@ imputer = imputer.fit(previsores[:,:])
 previsores[:,:] = imputer.fit_transform(previsores[:,:])
 
 # Classe para preencher dados vagos
-imputer = SimpleImputer(missing_values = '-', strategy='constant', fill_value='desconhecido')
+imputer = SimpleImputer(missing_values = '-', strategy='constant', fill_value='neutral')
 # imputer faz as estatiscas sobre o atributo Previsores
 imputer = imputer.fit(previsores[:,7].reshape(1,-1)) 
 # Atribui as modificação de valores nulos, a mesma variavel
@@ -115,7 +105,8 @@ classe = classe.astype('int')
 from sklearn.model_selection import train_test_split
 # Criando variaveis para treinamento e teste, usando o metodo de divisao dos dados
 # Usou-se 25%(test_size = 0.25) como quantidade de atributos para teste e o restante para treinamento
-previsores_treinamento, previsores_teste, classe_treinamento, classe_teste = train_test_split(previsores, classe, test_size=0.33, random_state=0)
+previsores_treinamento, previsores_teste, classe_treinamento, classe_teste = train_test_split(previsores, classe, test_size=0.30, random_state=0)
+
 
 from sklearn.preprocessing import StandardScaler
 scaler = StandardScaler()
@@ -125,20 +116,20 @@ previsores_teste = scaler.fit_transform(previsores_teste)
 
 # Treinamento a partir de uma Arvore de Decisao, com o criterio de Entropia, unico teste  
 # Hiperparamenters para achar a melhores paramentros para a arvore
-from scipy.stats import randint
-paramenter = {"max_depth": randint(3,10),
-              "min_samples_leaf": randint(1,5),
-              "max_features": randint(5,15),
-              "criterion": ["gini","entropy"]}  
+#from scipy.stats import randint
+paramenter = {"max_depth": [3,10],
+              "min_samples_leaf": [1,5],
+              'criterion': ('gini','entropy')}  
 
+# Encontrando a melhor configuração para a arvores 
 from sklearn.tree import DecisionTreeClassifier
-tree = DecisionTreeClassifier(criterion = 'gini',
-                              max_depth = 7,
-                              max_features = 5,
-                              min_samples_leaf = 2)
 
-from sklearn.model_selection import RandomizedSearchCV
-classificador = RandomizedSearchCV(tree,paramenter, cv=3)
+tree = DecisionTreeClassifier(criterion= "entropy",
+                              max_depth= 3,
+                              min_samples_leaf=1)
+
+from sklearn.model_selection import GridSearchCV #RandomizedSearchCV
+classificador = GridSearchCV(tree,paramenter, cv=3)
 
 classificador.fit(previsores_treinamento, classe_treinamento)
 
@@ -146,19 +137,30 @@ print("Tuned: {}".format(classificador.best_params_))
 print("Best score is {}".format(classificador.best_score_))
 
 previsoes = classificador.predict(previsores_teste)
-/*
+
 # Usando o Cross_validate para avaliar o classificador
 from sklearn.model_selection import cross_validate
 scoring = ['precision_macro', 'recall_macro']
-scores_cv = cross_validate(classificador, 
-                        previsores, 
-                        classe,
-                        scoring=scoring, 
-                        cv=3)
+scores_cv = cross_validate(tree, 
+                           previsores, 
+                           classe,
+                           scoring=scoring, 
+                           cv=5)
+
 scores_cv['test_precision_macro']
-*/
+
 from sklearn.metrics import accuracy_score, confusion_matrix
 # Compara dados de dois atributos retornando o percentual de igualdade deles
 accuracy = accuracy_score(classe_teste, previsoes) 
 # Cria uma matriz para comparação de dados dos dois atributos
 matriz = confusion_matrix(classe_teste, previsoes)
+
+from sklearn import metrics
+import matplotlib.pyplot as plt
+cls_teste = pd.DataFrame(classe_teste).astype('float')
+preds = classificador.predict_proba(previsores_teste)[::,1]
+fpr, tpr,_ = metrics.roc_curve(cls_teste,preds)
+auc = metrics.roc_auc_score(cls_teste, preds)
+plt.plot(fpr,tpr,label="data 1, auc="+str(auc))
+plt.legend(loc=4)
+plt.show()
