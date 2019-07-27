@@ -108,4 +108,5 @@ class SuperPower:
         result = self.valor_distancias.iloc[1:11,0:2]
         for i in range(0,10):
             numero = self.valor_distancias.iloc[i+1,0].astype('int')
-            result.iloc[i,0] = self.base_superpower.iloc[numero,0] 
+            result.iloc[i,0] = self.base_superpower.iloc[numero,0]
+        return result.values.tolist()
