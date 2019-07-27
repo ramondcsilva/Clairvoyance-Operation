@@ -38,7 +38,7 @@ class SuperPower:
         self.escolha_sp = lista #Lista com os indices dos super-poderes escolhidos
         self.ss = [] #Lista com o nome dos super-poderes escolhidos
         for i in range(0, len(self.escolha_sp)):
-            self.ss.append(print(self.superpower[self.escolha_sp[i]]))
+            self.ss.append(self.superpower[self.escolha_sp[i]])
     
     def criarBaseDadosPoderes(self):
         #É criado uma base de dados com todos os super-poderes(escolhidos pelo usuário) dos heróis
