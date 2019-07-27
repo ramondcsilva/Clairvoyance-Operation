@@ -160,12 +160,18 @@ class Resultado(object):
         self.label.setObjectName("label")
         self.verticalLayout.addWidget(self.label)
         
-        #criação de uma listview para visualização dos resultados
-        self.listView = QtWidgets.QListView(self.centralwidget)
-        self.listView.setObjectName("listView")
-        
+        #criação de uma listwidget para visualização dos resultados
+        self.listWidget = QtWidgets.QListWidget(self.centralwidget)
+        self.listWidget.setObjectName("listWidget")
+        lAUX2 = sp.rankingHerois()
+        self.lAUX = []
+        for i in range(0, len(lAUX2)):
+            self.lAUX.append(str(lAUX2[i]))
+        print(self.lAUX)
+        self.listWidget.addItems(self.lAUX)
+   
         #criação de um layout para itens se adaptarem ao tamanho da tela
-        self.verticalLayout.addWidget(self.listView)
+        self.verticalLayout.addWidget(self.listWidget)
         MainWindowd.setCentralWidget(self.centralwidget)
        
         self.statusbar = QtWidgets.QStatusBar(MainWindowd)
