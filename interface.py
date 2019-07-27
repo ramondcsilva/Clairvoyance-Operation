@@ -5,27 +5,32 @@ sp = bd.SuperPower()
 
 #classe para fazer uma ComboBox ser uma Checkable
 class CheckableComboBox(QtWidgets.QComboBox):
-    
+    #transformando uma ComboBox normal em uma ComboBox de CheckList
     def addItem(self, item):
         super(CheckableComboBox, self).addItem(item)
         item = self.model().item(self.count()-1,0)
         item.setFlags(QtCore.Qt.ItemIsUserCheckable | QtCore.Qt.ItemIsEnabled)
         item.setCheckState(QtCore.Qt.Unchecked)
-    
+        
+    #retorna true caso o a posição da CheckBox esteja selecionada
     def itemChecked(self, index):
-        item = self.model().item(i,0)
-        return print(item.checkState() == QtCore.Qt.Checked)
+        item = self.model().item(index)
+        if(item.checkState() == QtCore.Qt.Checked):
+            return True
+        return False
 
 class Main(object):
     def setupUi(self, MainWindowd):
         #criação da tela principal    
         MainWindowd.setObjectName("MainWindowd")
         MainWindowd.resize(298, 201)
+        
         #criação de um layout para itens se adaptarem ao tamanho da tela
         self.centralwidget = QtWidgets.QWidget(MainWindowd)
         self.centralwidget.setObjectName("centralwidget")
         self.verticalLayout = QtWidgets.QVBoxLayout(self.centralwidget)
         self.verticalLayout.setObjectName("verticalLayout")
+        
         #label com o nome do programa
         self.label = QtWidgets.QLabel(self.centralwidget)
         font = QtGui.QFont()
@@ -97,7 +102,8 @@ class Main(object):
         _translate = QtCore.QCoreApplication.translate
         MainWindowd.setWindowTitle(_translate("MainWindowd", "Clairvoyance Operation"))
         self.label.setText(_translate("MainWindowd", "Clairvoyance Operation"))
-        #para testes
+        
+        #criando a exibição das listas
         sp.criarListas()
         lAUX = sp.retornarNames()
         for i in range(0, len(lAUX)):
@@ -110,20 +116,38 @@ class Main(object):
             self.method.addItem(lAUX[i])
         
         self.search.setText(_translate("MainWindowd", "Pesquisar"))
-
+    
+    #chama os métodos de distância e a tela para mostrar os resultados
     def exibir(self):
+        list = [] #lista para salvar os índices dos super-poderes escolhidos pelo usuário 
+        for i in range(0, 167):
+            if(self.feature.itemChecked(i)):
+                list.append(i)
+        #envia a lista com as posições dos super-poderes escolhidos        
+        sp.escolherSuperPower(list)
+        sp.criarBaseDadosPoderes()
+        sp.escolherHeroi(self.heroes.currentText())
+        sp.escolherDistancia(self.method.currentIndex())
+        sp.calcularDistancia()
+        
+        #chama a nova tela com o resultado
         t = Resultado()
         t.setupUi(MainWindowd)
         MainWindowd.show
         
 class Resultado(object):
     def setupUi(self, MainWindow):
+        #criação da tela principal    
         MainWindow.setObjectName("MainWindow")
         MainWindow.setEnabled(True)
+                
+        #criação de um layout para itens se adaptarem ao tamanho da tela
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.verticalLayout = QtWidgets.QVBoxLayout(self.centralwidget)
         self.verticalLayout.setObjectName("verticalLayout")
+        
+        #label com o nome do programa
         self.label = QtWidgets.QLabel(self.centralwidget)
         font = QtGui.QFont()
         font.setFamily("MV Boli")
@@ -131,15 +155,20 @@ class Resultado(object):
         self.label.setFont(font)
         self.label.setLayoutDirection(QtCore.Qt.LeftToRight)
         self.label.setObjectName("label")
+        
+        #criação de um layout para itens se adaptarem ao tamanho da tela
         self.verticalLayout.addWidget(self.label)
+        
+        #criação de uma listview para visualização dos resultados
         self.listView = QtWidgets.QListView(self.centralwidget)
         self.listView.setObjectName("listView")
         self.verticalLayout.addWidget(self.listView)
         MainWindow.setCentralWidget(self.centralwidget)
+        
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
-
+        
         self.retranslateUia(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
