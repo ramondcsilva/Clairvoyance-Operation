@@ -123,6 +123,7 @@ class Main(object):
         for i in range(0, 167):
             if(self.feature.itemChecked(i)):
                 list.append(i)
+        
         #envia a lista com as posições dos super-poderes escolhidos        
         sp.escolherSuperPower(list)
         sp.criarBaseDadosPoderes()
@@ -134,15 +135,17 @@ class Main(object):
         t = Resultado()
         t.setupUi(MainWindowd)
         MainWindowd.show
-        
+
+#tela para exibir os resultados da busca        
 class Resultado(object):
-    def setupUi(self, MainWindow):
+    def setupUi(self, MainWindowd):
         #criação da tela principal    
-        MainWindow.setObjectName("MainWindow")
-        MainWindow.setEnabled(True)
-                
+        MainWindowd.setObjectName("MainWindowd")
+        MainWindowd.setEnabled(True)
+        MainWindowd.resize(298, 201)
+        
         #criação de um layout para itens se adaptarem ao tamanho da tela
-        self.centralwidget = QtWidgets.QWidget(MainWindow)
+        self.centralwidget = QtWidgets.QWidget(MainWindowd)
         self.centralwidget.setObjectName("centralwidget")
         self.verticalLayout = QtWidgets.QVBoxLayout(self.centralwidget)
         self.verticalLayout.setObjectName("verticalLayout")
@@ -155,28 +158,27 @@ class Resultado(object):
         self.label.setFont(font)
         self.label.setLayoutDirection(QtCore.Qt.LeftToRight)
         self.label.setObjectName("label")
-        
-        #criação de um layout para itens se adaptarem ao tamanho da tela
         self.verticalLayout.addWidget(self.label)
         
         #criação de uma listview para visualização dos resultados
         self.listView = QtWidgets.QListView(self.centralwidget)
         self.listView.setObjectName("listView")
+        
+        #criação de um layout para itens se adaptarem ao tamanho da tela
         self.verticalLayout.addWidget(self.listView)
-        MainWindow.setCentralWidget(self.centralwidget)
-        
-        self.statusbar = QtWidgets.QStatusBar(MainWindow)
+        MainWindowd.setCentralWidget(self.centralwidget)
+       
+        self.statusbar = QtWidgets.QStatusBar(MainWindowd)
         self.statusbar.setObjectName("statusbar")
-        MainWindow.setStatusBar(self.statusbar)
-        
-        self.retranslateUia(MainWindow)
-        QtCore.QMetaObject.connectSlotsByName(MainWindow)
+        MainWindowd.setStatusBar(self.statusbar)
 
-    def retranslateUia(self, MainWindow):
+        self.retranslateUi(MainWindowd)
+        QtCore.QMetaObject.connectSlotsByName(MainWindowd)
+
+    def retranslateUi(self, MainWindowd):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "Clairvoyance Operation"))
-        self.label.setText(_translate("MainWindow", "Clairvoyance Operation"))
-
+        MainWindowd.setWindowTitle(_translate("MainWindowd", "Clairvoyance Operation"))
+        self.label.setText(_translate("MainWindowd", "Clairvoyance Operation"))
         
 #iniciando o programa 
 if __name__ == "__main__":
