@@ -1,3 +1,8 @@
+"""
+Created on Fri Jul  5 00:01:09 2019
+@author: Ramon Silva, Adlla Katarine, Daniel Alves
+"""
+
 from PyQt5 import QtCore, QtGui, QtWidgets
 import base_superpower as bd
 sp = bd.SuperPower()
