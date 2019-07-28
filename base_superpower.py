@@ -112,7 +112,7 @@ class SuperPower:
         '''
         for i in range(0, 667):
                 if(i != self.heroi):
-                    self.valor_distancias[i,1] = distance.hamming([self.base_distancias[self.heroi,:]],[self.base_distancias[i,:]])
+                    self.valor_distancias[i,1] = distance.hamming([self.baseSPoderes_Escolhidos[self.heroi,:]],[self.baseSPoderes_Escolhidos[i,:]])
                     self.valor_distancias[i,0] = i
     
     def distanciaROGER(self):
@@ -121,7 +121,7 @@ class SuperPower:
         '''
         for i in range(0, 667):
                 if(i != self.heroi):
-                    self.valor_distancias[i,1] = distance.rogerstanimoto([self.base_distancias[self.heroi,:]],[self.base_distancias[i,:]])
+                    self.valor_distancias[i,1] = distance.rogerstanimoto([self.baseSPoderes_Escolhidos[self.heroi,:]],[self.baseSPoderes_Escolhidos[i,:]])
                     self.valor_distancias[i,0] = i
 
     def distanciaKulsin(self):
@@ -130,7 +130,7 @@ class SuperPower:
         '''
         for i in range(0, 667):
                 if(i != self.heroi):
-                    self.valor_distancias[i,1] = distance.kulsinski([self.base_distancias[self.heroi,:]],[self.base_distancias[i,:]])
+                    self.valor_distancias[i,1] = distance.kulsinski([self.baseSPoderes_Escolhidos[self.heroi,:]],[self.baseSPoderes_Escolhidos[i,:]])
                     self.valor_distancias[i,0] = i
 
     def ordenarDistancias(self):
