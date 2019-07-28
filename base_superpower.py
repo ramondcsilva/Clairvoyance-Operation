@@ -25,7 +25,7 @@ class SuperPower:
         self.names = self.base_superpower["hero_names"] #Lista com o nome de todos os heróis
         #Lista com todas as distâncias que podem ser escolhidas pelo usuário
         self.distancia_type = ["Distância de Jaccard", "Distância de Russellrao", "Distância de Hamming",
-                               "Distância de ROGERSTANIMOTO", "Distância de KULSINSKI"]
+                               "Distância de Rogerstanimoto", "Distância de Kulsinki"]
         self.superpower = self.base_superpower.columns[1:] #Lista de todos os super-poderes
         
     def retornarNames(self):
@@ -117,7 +117,7 @@ class SuperPower:
     
     def distanciaROGER(self):
         '''
-        Calcula a distancia de ROGERSTANIMOTO.
+        Calcula a distancia de Rogerstanimoto.
         '''
         for i in range(0, 667):
                 if(i != self.heroi):
@@ -126,7 +126,7 @@ class SuperPower:
 
     def distanciaKulsin(self):
         '''
-        Calcula a distancia de KULSINSKI.
+        Calcula a distancia de Kulsinki.
         '''
         for i in range(0, 667):
                 if(i != self.heroi):
