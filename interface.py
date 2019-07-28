@@ -209,7 +209,7 @@ class Resultado(object):
 
         self.retranslateUi(MainWindowd)
         QtCore.QMetaObject.connectSlotsByName(MainWindowd)
-        MainWindowd.setTabOrder(self.backButton, self.listWidget)
+        MainWindowd.setTabOrder(self.backButton)
 
     def retranslateUi(self, MainWindowd):
         _translate = QtCore.QCoreApplication.translate
