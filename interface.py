@@ -1,3 +1,8 @@
+"""
+Created on Fri Jul  5 00:01:09 2019
+@author: Ramon Silva, Adlla Katarine, Daniel Alves
+"""
+
 from PyQt5 import QtCore, QtGui, QtWidgets
 import base_superpower as bd
 sp = bd.SuperPower()
@@ -15,9 +20,18 @@ class CheckableComboBox(QtWidgets.QComboBox):
     #retorna true caso o a posição da CheckBox esteja selecionada
     def itemChecked(self, index):
         item = self.model().item(index)
+        if(index == 0):
+            if(item.checkState() == QtCore.Qt.Checked):
+               for i in range(0, 167):
+                   self.allChecked(i)
         if(item.checkState() == QtCore.Qt.Checked):
             return True
         return False
+    #caso o usuário queira selecionar todos os super-poderes
+    def allChecked(self, index2):
+        item2 = self.model().item(index2)
+        item2.setCheckState(QtCore.Qt.Checked) 
+           
 
 class Main(object):
     def setupUi(self, MainWindowd):
@@ -109,6 +123,7 @@ class Main(object):
         for i in range(0, len(lAUX)):
             self.heroes.addItem(lAUX[i])
         lAUX = sp.retornarSuperPower()
+        self.feature.addItem("Selecionar Todos")
         for i in range(0, len(lAUX)):
             self.feature.addItem(lAUX[i])    
         lAUX = sp.retornarDistancias()
@@ -123,26 +138,29 @@ class Main(object):
         for i in range(0, 167):
             if(self.feature.itemChecked(i)):
                 list.append(i)
+        
         #envia a lista com as posições dos super-poderes escolhidos        
         sp.escolherSuperPower(list)
         sp.criarBaseDadosPoderes()
         sp.escolherHeroi(self.heroes.currentText())
         sp.escolherDistancia(self.method.currentIndex())
         sp.calcularDistancia()
-        
+        self.search.clicked.disconnect()
         #chama a nova tela com o resultado
         t = Resultado()
         t.setupUi(MainWindowd)
         MainWindowd.show
-        
+
+#tela para exibir os resultados da busca        
 class Resultado(object):
-    def setupUi(self, MainWindow):
+    def setupUi(self, MainWindowd):
         #criação da tela principal    
-        MainWindow.setObjectName("MainWindow")
-        MainWindow.setEnabled(True)
-                
+        MainWindowd.setObjectName("MainWindowd")
+        MainWindowd.setEnabled(True)
+        MainWindowd.resize(298, 201)
+        
         #criação de um layout para itens se adaptarem ao tamanho da tela
-        self.centralwidget = QtWidgets.QWidget(MainWindow)
+        self.centralwidget = QtWidgets.QWidget(MainWindowd)
         self.centralwidget.setObjectName("centralwidget")
         self.verticalLayout = QtWidgets.QVBoxLayout(self.centralwidget)
         self.verticalLayout.setObjectName("verticalLayout")
@@ -155,28 +173,56 @@ class Resultado(object):
         self.label.setFont(font)
         self.label.setLayoutDirection(QtCore.Qt.LeftToRight)
         self.label.setObjectName("label")
-        
-        #criação de um layout para itens se adaptarem ao tamanho da tela
         self.verticalLayout.addWidget(self.label)
         
-        #criação de uma listview para visualização dos resultados
-        self.listView = QtWidgets.QListView(self.centralwidget)
-        self.listView.setObjectName("listView")
-        self.verticalLayout.addWidget(self.listView)
-        MainWindow.setCentralWidget(self.centralwidget)
+        self.backButton = QtWidgets.QPushButton(self.centralwidget)
+        font = QtGui.QFont()
+        font.setFamily("Nirmala UI")
+        font.setPointSize(14)
+        self.backButton.setFont(font)
+        self.backButton.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.backButton.setObjectName("backButton")
+        self.verticalLayout.addWidget(self.backButton, 0, QtCore.Qt.AlignLeft)
+        MainWindowd.setCentralWidget(self.centralwidget)
+        self.backButton.clicked.connect(self.voltar)
         
-        self.statusbar = QtWidgets.QStatusBar(MainWindow)
+        #criação de uma listwidget para visualização dos resultados
+        self.listWidget = QtWidgets.QListWidget(self.centralwidget)
+        self.listWidget.setObjectName("listWidget")
+        lAUX = sp.rankingHerois()
+        for i in range(0, len(lAUX)):
+            string = str(lAUX[i])
+            string = string.replace("[","")
+            string = string.replace("]", "")
+            string = string.replace("'", "")
+            lAUX[i] = string
+            
+        self.listWidget.addItems(lAUX)
+   
+        #criação de um layout para itens se adaptarem ao tamanho da tela
+        self.verticalLayout.addWidget(self.listWidget)
+        MainWindowd.setCentralWidget(self.centralwidget)
+       
+        self.statusbar = QtWidgets.QStatusBar(MainWindowd)
         self.statusbar.setObjectName("statusbar")
-        MainWindow.setStatusBar(self.statusbar)
-        
-        self.retranslateUia(MainWindow)
-        QtCore.QMetaObject.connectSlotsByName(MainWindow)
+        MainWindowd.setStatusBar(self.statusbar)
 
-    def retranslateUia(self, MainWindow):
+        self.retranslateUi(MainWindowd)
+        QtCore.QMetaObject.connectSlotsByName(MainWindowd)
+        MainWindowd.setTabOrder(self.backButton, self.listWidget)
+
+    def retranslateUi(self, MainWindowd):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "Clairvoyance Operation"))
-        self.label.setText(_translate("MainWindow", "Clairvoyance Operation"))
+        MainWindowd.setWindowTitle(_translate("MainWindowd", "Clairvoyance Operation"))
+        self.label.setText(_translate("MainWindowd", "Clairvoyance Operation"))
+        self.backButton.setText(_translate("MainWindowd", "Voltar"))
 
+    def voltar(self):
+        sp.limpar()
+        self.backButton.clicked.disconnect()
+        t = Main()
+        t.setupUi(MainWindowd)
+        MainWindowd.show
         
 #iniciando o programa 
 if __name__ == "__main__":
