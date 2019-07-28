@@ -100,7 +100,7 @@ class Main(object):
         self.search.setObjectName("search")
         self.verticalLayout.addWidget(self.search)
         MainWindowd.setCentralWidget(self.centralwidget)
-        print(self.search.clicked.connect(self.exibir))
+        self.search.clicked.connect(self.exibir)
  
         self.retranslateUi(MainWindowd)
         QtCore.QMetaObject.connectSlotsByName(MainWindowd)
