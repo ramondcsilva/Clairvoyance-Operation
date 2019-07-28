@@ -71,9 +71,7 @@ class SuperPower:
         '''
         Recebe o heroi escolhido por indice.
         '''
-        print(heroiAux)
         self.heroi, = np.where(self.names == heroiAux)
-        print(self.heroi)
         
     def escolherDistancia(self, escolha_distancia):
         '''
@@ -115,7 +113,7 @@ class SuperPower:
                     self.valor_distancias[i,1] = distance.hamming([self.baseSPoderes_Escolhidos[self.heroi,:]],[self.baseSPoderes_Escolhidos[i,:]])
                     self.valor_distancias[i,0] = i
     
-    def distanciaROGER(self):
+    def distanciaRogerstanimoto(self):
         '''
         Calcula a distancia de Rogerstanimoto.
         '''
@@ -124,7 +122,7 @@ class SuperPower:
                     self.valor_distancias[i,1] = distance.rogerstanimoto([self.baseSPoderes_Escolhidos[self.heroi,:]],[self.baseSPoderes_Escolhidos[i,:]])
                     self.valor_distancias[i,0] = i
 
-    def distanciaKulsin(self):
+    def distanciaKulsinki(self):
         '''
         Calcula a distancia de Kulsinki.
         '''
@@ -159,11 +157,11 @@ class SuperPower:
             
         elif(self.escolha_distancia == 3):
             ################### DISTÂNCIA DE ROGERSTANIMOTO #############################
-            self.distanciaROGER()
+            self.distanciaRogerstanimoto()
         
         else:
             ################### DISTÂNCIA DE KULSINSKI #############################
-            self.distanciaKulsin()
+            self.distanciaKulsinki()
                     
         self.ordenarDistancias()
         
