@@ -23,13 +23,6 @@ class SuperPower:
         self.distancia_type = ["Distância de Hamming", "Distância de Jaccard", "Distância de Kulsinski", 
                           "Distância de Rogerstanimoto", "Distância de Russellrao", "Distância de Sokalmichener"]
         self.superpower = self.base_superpower.columns[1:] #Lista de todos os super-poderes
-    
-    def limpar(self):
-        self.base_distancias = None
-        self.escolha_distancia = None
-        self.base_superpower = pd.read_csv('superpoderes.csv')
-        self.previsores = self.base_superpower.iloc[:,1:169].values
-        self.nomes = self.base_superpower.iloc[:,0].values
         
     def retornarNames(self):
         return self.names

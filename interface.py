@@ -100,12 +100,8 @@ class Main(object):
         self.search.setObjectName("search")
         self.verticalLayout.addWidget(self.search)
         MainWindowd.setCentralWidget(self.centralwidget)
-        self.search.clicked.connect(self.exibir)
-        
-        self.statusbar = QtWidgets.QStatusBar(MainWindowd)
-        self.statusbar.setObjectName("statusbar")
-        MainWindowd.setStatusBar(self.statusbar)
-
+        print(self.search.clicked.connect(self.exibir))
+ 
         self.retranslateUi(MainWindowd)
         QtCore.QMetaObject.connectSlotsByName(MainWindowd)
         MainWindowd.setTabOrder(self.feature, self.method)
@@ -145,11 +141,11 @@ class Main(object):
         sp.escolherHeroi(self.heroes.currentText())
         sp.escolherDistancia(self.method.currentIndex())
         sp.calcularDistancia()
-        self.search.clicked.disconnect()
+        
         #chama a nova tela com o resultado
         t = Resultado()
         t.setupUi(MainWindowd)
-        MainWindowd.show
+        MainWindowd.show()
 
 #tela para exibir os resultados da busca        
 class Resultado(object):
@@ -202,10 +198,6 @@ class Resultado(object):
         #criação de um layout para itens se adaptarem ao tamanho da tela
         self.verticalLayout.addWidget(self.listWidget)
         MainWindowd.setCentralWidget(self.centralwidget)
-       
-        self.statusbar = QtWidgets.QStatusBar(MainWindowd)
-        self.statusbar.setObjectName("statusbar")
-        MainWindowd.setStatusBar(self.statusbar)
 
         self.retranslateUi(MainWindowd)
         QtCore.QMetaObject.connectSlotsByName(MainWindowd)
@@ -218,11 +210,8 @@ class Resultado(object):
         self.backButton.setText(_translate("MainWindowd", "Voltar"))
 
     def voltar(self):
-        sp.limpar()
-        self.backButton.clicked.disconnect()
-        t = Main()
-        t.setupUi(MainWindowd)
-        MainWindowd.show
+        ui.setupUi(MainWindowd)
+        MainWindowd.show()
         
 #iniciando o programa 
 if __name__ == "__main__":
