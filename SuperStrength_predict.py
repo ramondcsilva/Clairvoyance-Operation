@@ -27,7 +27,7 @@ base_herois.loc[base_herois.Height > 170, 'Height'] = 1
 result = base_herois.merge(base_herois_superpower, left_on ='name', right_on='hero_names', how='outer')
 
 
-# Excluzao do atributo do nome e de herois que estavam duplicados
+# Exclusao do atributo do nome e de herois que estavam duplicados
 result.drop("hero_names",1,inplace=True)
 result = result.drop(50)
 result = result.drop(62)
@@ -134,7 +134,7 @@ from sklearn.model_selection import train_test_split
 previsores_treinamento, previsores_teste, classe_treinamento, classe_teste = train_test_split(previsores, classe, test_size=0.30, random_state=0)
 
 # Hiperparamenters para achar a melhores paramentros para a arvore de decisao
-paramenter = {"max_depth": [3,10],
+paramenter = {"max_depth": [3,20],
               "min_samples_leaf": [1,5],
               'criterion': ('gini','entropy')}  
 
