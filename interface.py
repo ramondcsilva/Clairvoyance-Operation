@@ -21,8 +21,9 @@ class CheckableComboBox(QtWidgets.QComboBox):
     def itemChecked(self, index):
         item = self.model().item(index)
         if(index == 0):
-            for i in range(0, 167):
-                self.allChecked(i)
+            if(item.checkState() == QtCore.Qt.Checked):
+               for i in range(0, 167):
+                   self.allChecked(i)
         if(item.checkState() == QtCore.Qt.Checked):
             return True
         return False
@@ -122,8 +123,8 @@ class Main(object):
         for i in range(0, len(lAUX)):
             self.heroes.addItem(lAUX[i])
         lAUX = sp.retornarSuperPower()
-        for i in range(1, len(lAUX)):
-            self.feature.addItem("Selecionar Todos")
+        self.feature.addItem("Selecionar Todos")
+        for i in range(0, len(lAUX)):
             self.feature.addItem(lAUX[i])    
         lAUX = sp.retornarDistancias()
         for i in range(0, len(lAUX)):
@@ -144,7 +145,7 @@ class Main(object):
         sp.escolherHeroi(self.heroes.currentText())
         sp.escolherDistancia(self.method.currentIndex())
         sp.calcularDistancia()
-        
+        self.search.clicked.disconnect()
         #chama a nova tela com o resultado
         t = Resultado()
         t.setupUi(MainWindowd)
@@ -174,6 +175,17 @@ class Resultado(object):
         self.label.setObjectName("label")
         self.verticalLayout.addWidget(self.label)
         
+        self.backButton = QtWidgets.QPushButton(self.centralwidget)
+        font = QtGui.QFont()
+        font.setFamily("Nirmala UI")
+        font.setPointSize(14)
+        self.backButton.setFont(font)
+        self.backButton.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.backButton.setObjectName("backButton")
+        self.verticalLayout.addWidget(self.backButton, 0, QtCore.Qt.AlignLeft)
+        MainWindowd.setCentralWidget(self.centralwidget)
+        self.backButton.clicked.connect(self.voltar)
+        
         #criação de uma listwidget para visualização dos resultados
         self.listWidget = QtWidgets.QListWidget(self.centralwidget)
         self.listWidget.setObjectName("listWidget")
@@ -197,11 +209,20 @@ class Resultado(object):
 
         self.retranslateUi(MainWindowd)
         QtCore.QMetaObject.connectSlotsByName(MainWindowd)
+        MainWindowd.setTabOrder(self.backButton, self.listWidget)
 
     def retranslateUi(self, MainWindowd):
         _translate = QtCore.QCoreApplication.translate
         MainWindowd.setWindowTitle(_translate("MainWindowd", "Clairvoyance Operation"))
         self.label.setText(_translate("MainWindowd", "Clairvoyance Operation"))
+        self.backButton.setText(_translate("MainWindowd", "Voltar"))
+
+    def voltar(self):
+        sp.limpar()
+        self.backButton.clicked.disconnect()
+        t = Main()
+        t.setupUi(MainWindowd)
+        MainWindowd.show
         
 #iniciando o programa 
 if __name__ == "__main__":
