@@ -6,6 +6,7 @@ Created on Fri Jul  5 00:01:09 2019
 
 import pandas as pd
 import pandas as dd
+from sklearn.metrics.cluster import adjusted_rand_score, adjusted_mutual_info_score, completeness_score
 from scipy.spatial import distance
 import numpy as np 
 
@@ -101,7 +102,6 @@ class SuperPower:
                 self.valor_distancias[i,1] = distance.russellrao([self.baseSPoderes_Escolhidos[self.heroi,:]],[self.baseSPoderes_Escolhidos[i,:]])
                 self.valor_distancias[i,0] = i
     
-    
     def distanciaSokalMichener(self):
         '''
         Calcula a distancia de SokalMichener.
@@ -110,6 +110,7 @@ class SuperPower:
             if(i != self.heroi):
                 self.valor_distancias[i,1] = distance.sokalmichener([self.base_distancias[self.heroi,:]],[self.base_distancias[i,:]])
                 self.valor_distancias[i,0] = i
+
 
     def ordenarDistancias(self):
         '''
