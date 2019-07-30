@@ -108,7 +108,7 @@ class SuperPower:
         '''
         for i in range(0, 667):
             if(i != self.heroi):
-                self.valor_distancias[i,1] = distance.sokalmichener([self.base_distancias[self.heroi:]],[self.base_distancias[i,:]])
+                self.valor_distancias[i,1] = distance.sokalmichener([self.baseSPoderes_Escolhidos[self.heroi,:]],[self.baseSPoderes_Escolhidos[i,:]])
                 self.valor_distancias[i,0] = i
 
     def ordenarDistancias(self):
