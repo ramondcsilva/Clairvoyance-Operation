@@ -6,7 +6,6 @@ Created on Fri Jul  5 00:01:09 2019
 
 import pandas as pd
 import pandas as dd
-from sklearn.metrics.cluster import adjusted_rand_score, adjusted_mutual_info_score, completeness_score
 from scipy.spatial import distance
 import numpy as np 
 
@@ -14,7 +13,7 @@ class SuperPower:
     
     def __init__(self):
         '''
-        Leitura de arquivo para criação da base_superpower de dados, 
+        Leitura de arquivo para criação da base_superpower de dados.
         '''
         self.base_superpower = pd.read_csv('superpoderes.csv')
     
@@ -24,8 +23,7 @@ class SuperPower:
         '''
         self.names = self.base_superpower["hero_names"] #Lista com o nome de todos os heróis
         #Lista com todas as distâncias que podem ser escolhidas pelo usuário
-        self.distancia_type = ["Distância de Jaccard", "Distância de Russellrao", "Distância de Hamming",
-                               "Distância de Rogerstanimoto", "Distância de Kulsinki"]
+        self.distancia_type = ["Distância de Jaccard", "Distância de Russellrao", "Distância de SokalMichener"]
         self.superpower = self.base_superpower.columns[1:] #Lista de todos os super-poderes
         
     def retornarNames(self):
@@ -104,32 +102,14 @@ class SuperPower:
                 self.valor_distancias[i,0] = i
     
     
-    def distanciaHamming(self):
+    def distanciaSokalMichener(self):
         '''
-        Calcula a distancia de Hamming.
-        '''
-        for i in range(0, 667):
-                if(i != self.heroi):
-                    self.valor_distancias[i,1] = distance.hamming([self.baseSPoderes_Escolhidos[self.heroi,:]],[self.baseSPoderes_Escolhidos[i,:]])
-                    self.valor_distancias[i,0] = i
-    
-    def distanciaRogerstanimoto(self):
-        '''
-        Calcula a distancia de Rogerstanimoto.
+        Calcula a distancia de SokalMichener.
         '''
         for i in range(0, 667):
-                if(i != self.heroi):
-                    self.valor_distancias[i,1] = distance.rogerstanimoto([self.baseSPoderes_Escolhidos[self.heroi,:]],[self.baseSPoderes_Escolhidos[i,:]])
-                    self.valor_distancias[i,0] = i
-
-    def distanciaKulsinki(self):
-        '''
-        Calcula a distancia de Kulsinki.
-        '''
-        for i in range(0, 667):
-                if(i != self.heroi):
-                    self.valor_distancias[i,1] = distance.kulsinski([self.baseSPoderes_Escolhidos[self.heroi,:]],[self.baseSPoderes_Escolhidos[i,:]])
-                    self.valor_distancias[i,0] = i
+            if(i != self.heroi):
+                self.valor_distancias[i,1] = distance.sokalmichener([self.baseSPoderes_Escolhidos[self.heroi,:]],[self.baseSPoderes_Escolhidos[i,:]])
+                self.valor_distancias[i,0] = i
 
     def ordenarDistancias(self):
         '''
@@ -150,18 +130,10 @@ class SuperPower:
         elif(self.escolha_distancia == 1):
             ################### DISTÂNCIA DE RUSSELLRAO #############################
             self.distanciaRussellRao()
-            
-        elif(self.escolha_distancia == 2):
-            ################### DISTÂNCIA DE HAMMING #############################
-            self.distanciaHamming()
-            
-        elif(self.escolha_distancia == 3):
-            ################### DISTÂNCIA DE ROGERSTANIMOTO #############################
-            self.distanciaRogerstanimoto()
         
         else:
-            ################### DISTÂNCIA DE KULSINSKI #############################
-            self.distanciaKulsinki()
+            ################### DISTÂNCIA DE SOKALMICHENER #############################
+            self.distanciaSokalMichener()
                     
         self.ordenarDistancias()
         
