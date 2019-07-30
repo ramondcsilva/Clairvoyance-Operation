@@ -65,11 +65,11 @@ class SuperPower:
             self.baseSPoderes_Escolhidos.iloc[:,i] = self.base_superpower.loc[:, str(self.superpower[self.indices_sPoderesEscolhidos[i]])]
         self.baseSPoderes_Escolhidos = self.baseSPoderes_Escolhidos.iloc[:,:].values
 
-    def escolherHeroi(self, heroiAux):
+    def escolherHeroi(self, heroiaux):
         '''
         Recebe o heroi escolhido por indice.
         '''
-        self.heroi = self.herouAux
+        self.heroi = heroiaux
         
     def escolherDistancia(self, escolha_distancia):
         '''
