@@ -16,9 +16,6 @@ base_herois.loc[base_herois.Weight < 75, 'Weight'] = 0
 base_herois.loc[base_herois.Weight > 75, 'Weight'] = 2
 base_herois.loc[base_herois.Weight == 75, 'Weight'] = 1
 
-# Agrupamento de classes do Atributo Publisher
-# Dividido entre Marvel Comics e Outhers
-base_herois.loc[base_herois.Publisher != 'Marvel Comics', 'Publisher'] = 'Outhers'
 
 # Tratamento de valores negativos e agrupamento de classes do Atributo HEIGTH
 # Baixo = 0, Alto = 1

@@ -10,14 +10,6 @@ base_herois_superpower = pd.read_csv('superpoderes.csv')
 
 # Tratamento de valores negativos e agrupamento de classes do Atributo WEIGTH
 # Leve = 0, Medio = 1, Pesado = 2
-
-
-
-
-
-
-
-
 base_herois.loc[base_herois.Weight < 0, 'Weight'] = 0 
 base_herois.loc[base_herois.Weight == 0, 'Weight'] = int(base_herois['Weight'].mean())
 base_herois.loc[base_herois.Weight < 75, 'Weight'] = 0
@@ -35,21 +27,6 @@ base_herois.loc[base_herois.Height == 0, 'Height'] = int(base_herois['Height'].m
 base_herois.loc[base_herois.Height <= 170, 'Height'] = 0
 base_herois.loc[base_herois.Height > 170, 'Height'] = 1
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 # Mescla base de dados 
 result = base_herois.merge(base_herois_superpower, left_on ='name', right_on='hero_names', how='outer')
 
@@ -57,17 +34,6 @@ result = base_herois.merge(base_herois_superpower, left_on ='name', right_on='he
 # Exclusao do atributo do nome e de herois que estavam duplicados
 result.drop("hero_names",1,inplace=True)
 result = result.drop(50)
-
-
-
-
-
-
-
-
-
-
-
 result = result.drop(62)
 result = result.drop(69)
 result = result.drop(115)
@@ -87,21 +53,6 @@ result.loc[623, 'name'] = "Spider-Man II"
 result.loc[624, 'name'] = "Spider-Man III"
 result.loc[674, 'name'] = "Toxin II"
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 # Criação de atributo para previsao de dados, excluindo herois sem caracteristicas
 previsores = result.iloc[0:734,2:178].values
 
@@ -114,21 +65,6 @@ imputer = SimpleImputer(missing_values=np.nan, strategy='most_frequent')
 imputer = imputer.fit(previsores[:,:]) 
 # Atribui as modificação de valores nulos, a mesma variavel
 previsores[:,:] = imputer.fit_transform(previsores[:,:])
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 # Atribui os valores vagos de GENDER como a classe NO-GENDER
 imputer = SimpleImputer(missing_values = '-', strategy='constant', fill_value='no-gender')
@@ -168,23 +104,6 @@ previsores[:,7] = imputer.fit_transform(previsores[:,7].reshape(1,-1))
 imputer = SimpleImputer(missing_values = '-', strategy='constant', fill_value='no-good')
 imputer = imputer.fit(previsores[:,7].reshape(1,-1)) 
 previsores[:,7] = imputer.fit_transform(previsores[:,7].reshape(1,-1))
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 # Atribui os valores vagos com o mais frequentes aos dados restantes
 imputer = SimpleImputer(missing_values='-', strategy='most_frequent')

@@ -65,11 +65,11 @@ class SuperPower:
             self.baseSPoderes_Escolhidos.iloc[:,i] = self.base_superpower.loc[:, str(self.superpower[self.indices_sPoderesEscolhidos[i]])]
         self.baseSPoderes_Escolhidos = self.baseSPoderes_Escolhidos.iloc[:,:].values
 
-    def escolherHeroi(self, heroiaux):
+    def escolherHeroi(self, heroiAux):
         '''
         Recebe o heroi escolhido por indice.
         '''
-        self.heroi = heroiaux
+        self.heroi, = np.where(self.names == heroiAux)
         
     def escolherDistancia(self, escolha_distancia):
         '''
@@ -89,7 +89,7 @@ class SuperPower:
         '''
         for i in range(0, 667):
             if(i != self.heroi):
-                self.valor_distancias[i,1] = distance.jaccard([self.baseSPoderes_Escolhidos[self.heroi:]],[self.baseSPoderes_Escolhidos[i,:]])
+                self.valor_distancias[i,1] = distance.jaccard([self.baseSPoderes_Escolhidos[self.heroi,:]],[self.baseSPoderes_Escolhidos[i,:]])
                 self.valor_distancias[i,0] = i
     
     def distanciaRussellRao(self):
@@ -98,7 +98,7 @@ class SuperPower:
         '''
         for i in range(0, 667):
             if(i != self.heroi):
-                self.valor_distancias[i,1] = distance.russellrao([self.baseSPoderes_Escolhidos[self.heroi:]],[self.baseSPoderes_Escolhidos[i,:]])
+                self.valor_distancias[i,1] = distance.russellrao([self.baseSPoderes_Escolhidos[self.heroi,:]],[self.baseSPoderes_Escolhidos[i,:]])
                 self.valor_distancias[i,0] = i
     
     

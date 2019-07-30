@@ -10,7 +10,22 @@ base_herois_superpower = pd.read_csv('superpoderes.csv')
 
 # Tratamento de valores negativos e agrupamento de classes do Atributo WEIGTH
 # Leve = 0, Medio = 1, Pesado = 2
+base_herois.loc[base_herois.Weight < 0, 'Weight'] = 0 
+base_herois.loc[base_herois.Weight == 0, 'Weight'] = int(base_herois['Weight'].mean())
+base_herois.loc[base_herois.Weight < 75, 'Weight'] = 0
+base_herois.loc[base_herois.Weight > 75, 'Weight'] = 2
+base_herois.loc[base_herois.Weight == 75, 'Weight'] = 1
 
+# Agrupamento de classes do Atributo Publisher
+# Dividido entre Marvel Comics e Outhers
+base_herois.loc[base_herois.Publisher != 'Marvel Comics', 'Publisher'] = 'Outhers'
+
+# Tratamento de valores negativos e agrupamento de classes do Atributo HEIGTH
+# Baixo = 0, Alto = 1
+base_herois.loc[base_herois.Height < 0, 'Height'] = 0 
+base_herois.loc[base_herois.Height == 0, 'Height'] = int(base_herois['Height'].mean())
+base_herois.loc[base_herois.Height <= 170, 'Height'] = 0
+base_herois.loc[base_herois.Height > 170, 'Height'] = 1
 
 # Mescla base de dados 
 result = base_herois.merge(base_herois_superpower, left_on ='name', right_on='hero_names', how='outer')
@@ -19,7 +34,24 @@ result = base_herois.merge(base_herois_superpower, left_on ='name', right_on='he
 # Exclusao do atributo do nome e de herois que estavam duplicados
 result.drop("hero_names",1,inplace=True)
 result = result.drop(50)
+result = result.drop(62)
+result = result.drop(69)
+result = result.drop(115)
+result = result.drop(156)
+result = result.drop(259)
+result = result.drop(289)
+result = result.drop(290)
+result = result.drop(481)
+result = result.drop(617)
+result = result.drop(696)
 
+#Personagens com nomes iguais(não necessariamente duplicados) tiveram seus nomes alterados
+result.loc[23, 'name'] = "Angel II"
+result.loc[48, 'name'] = "Atlas II"
+result.loc[97, 'name'] = "Black Canary II"
+result.loc[623, 'name'] = "Spider-Man II"
+result.loc[624, 'name'] = "Spider-Man III"
+result.loc[674, 'name'] = "Toxin II"
 
 # Criação de atributo para previsao de dados, excluindo herois sem caracteristicas
 previsores = result.iloc[0:734,2:178].values
